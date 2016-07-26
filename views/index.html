@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="Materialize/dist/css/materialize.css">
+  <link rel="stylesheet" href="css/app.css">
+  <title>H5构建平台</title>
+</head>
+<body>
+<header>
+  <nav class="top-nav teal darken-1">
+    <div class="container">
+      <div class="nav-wrapper">
+        <a href="#!" class="brand-logo">H5构建平台</a>
+        <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+        <ul class="side-nav" id="mobile-demo">
+          <li class="active"><a href="index.html">SimpleWeb</a></li>
+        </ul>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+          <li class="active"><a href="index.html">SimpleWeb</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+<!--   <ul id="slide-out" class="side-nav fixed">
+    <li class="no-padding">
+      <ul class="collapsible collapsible-accordion">
+        <li class="bold active"><a class="collapsible-header active waves-effect waves-teal">SimpleWeb</a>
+          <div class="collapsible-body" style="display: block;">
+            <ul>
+              <li class="active teal"><a href="color.html">纯图单页</a></li>
+              <li><a href="grid.html">带按钮单页</a></li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+    </li>
+  </ul> -->
+  <!-- <a href="#" data-activates="slide-out" class="button-collapse"><i class="mdi-navigation-menu"></i></a>   -->
+</header>
+
+
+<main>
+  <div class="container">
+    <div class="row">
+      <form class="col s12 m12 l12" action="/api/simpleWeb/creat" method="post" enctype="multipart/form-data">
+
+        <div class="file-field input-field" style="margin: 30px 0 15px 0;">
+          <div class="btn">
+            <span>点这里上传设计图</span>
+            <input type="file" name="file">
+          </div>
+          <div class="file-path-wrapper">
+            <input class="file-path validate" type="text">
+          </div>
+        </div>
+          
+        <div class="row">
+          <div class="input-field col s12">
+            <select name="convertType">
+              <option value="jpg" selected>JPG</option>
+              <option value="png">PNG</option>
+            </select>
+            <label>图片转换默认格式</label>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="input-field col s12">
+            <input id="pageTitle" name="pageTitle" type="text" class="validate">
+            <label for="pageTitle">页面标题</label>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="input-field col s12">
+            <input id="pagePV" name="pagePV" type="text" class="validate">
+            <label for="pagePV">PV地址</label>
+          </div>
+        </div>
+
+        <p class="range-field">
+          <label for="quality">压缩比例(值越小, 图越模糊, 图片越小)</label>
+          <input type="range" id="quality" name="quality" min="10" max="100" value="80" style="margin: 30px 0;"/>
+        </p>
+        
+        <div class="row">
+          <div class="input-field col s12">
+            <input id="position" name="position" type="text" class="validate" value="0+0">
+            <label for="position">从起始坐标切图: x+y(如果有header可以设置 0+130)</label>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="input-field col s12">
+            <select name="sum">
+              <option value="2">2</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="8">8</option>
+              <option value="10" selected>10</option>
+              <option value="16">16</option>
+              <option value="20">20</option>
+              <option value="25">25</option>
+            </select>
+            <label>切图个数</label>
+          </div>
+        </div>
+        
+        <div class="row" style="position: relative">
+          <div class="input-field col s12">
+            <input id="endTime" name="endTime" type="date" class="datepicker" disabled>
+            <label for="endTime">下线时间(打开旁边的开关以设置时间)</label>
+          </div>
+          <div class="switch" style="margin-bottom: 30px;position: absolute;right: 0;bottom: 0;">
+            <label>
+             <input type="checkbox" name="isTempTime" id="isTempTime">
+             <span class="lever"></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="row" style="position: relative">
+          <div class="input-field col s12">
+            <input id="host" name="host" type="text" class="validate" value="http://192.168.0.201:8303/api/Resources/" disabled>
+            <label for="host">运维平台接口host(默认线上环境, 下面是测试环境的host)</label>
+          </div>
+          <div class="switch" style="margin-bottom: 30px;position: absolute;right: 0;bottom: 0;">
+            <label>
+             <input type="checkbox" name="isHost" id="isHost">
+             <span class="lever"></span>
+            </label>
+          </div>
+        </div>
+
+        <button class="btn waves-effect waves-light" type="button" name="action" id="submit">开始创建页面
+          <i class="material-icons right">send</i>
+        </button>
+
+        <div class="row">
+          <div class="input-field col s12">
+            <input class="datepicker" disabled>
+            <label >创建可能需要等待一些时间, 不要担心</label>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="container">
+  <table>
+    <thead>
+      <tr>
+          <th data-field="id">项</th>
+          <th data-field="name">值</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr>
+        <td>文件名</td>
+        <td class="fileName"></td>
+      </tr>
+      <tr>
+        <td>正式服地址</td>
+        <td class="proURL"></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</main>
+
+<div class="shade hide">
+  <div class="preloader-wrapper big active">
+    <div class="spinner-layer spinner-blue-only">
+      <div class="circle-clipper left">
+        <div class="circle"></div>
+      </div><div class="gap-patch">
+        <div class="circle"></div>
+      </div><div class="circle-clipper right">
+        <div class="circle"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="jquery/dist/jquery.js"></script>
+<script src="Materialize/dist/js/materialize.js"></script>
+<script src="pickadate/lib/translations/zh_CN.js"></script>
+<script type="text/javascript">
+  $(document).ready(function(){
+    var isTempTime = false;
+    var isHost = false;
+    var $shade = $('.shade');
+
+    $(".button-collapse").sideNav();
+     $('select').material_select();
+
+    $('.datepicker').pickadate({
+      selectMonths: true, // Creates a dropdown to control month
+      selectYears: 15, // Creates a dropdown of 15 years to control year
+      format: 'yyyy-mm-dd'
+    });
+
+    $('#isTempTime').change(function(event) {
+      isTempTime = !isTempTime;
+
+      if(isTempTime){
+        $('#endTime').removeAttr('disabled');
+      }else{
+        $('#endTime').attr('disabled', true);
+        $('#endTime').val('');
+      }
+    });
+
+    $('#isHost').change(function(event) {
+      isHost = !isHost;
+
+      if(isHost){
+        $('#host').removeAttr('disabled');
+      }else{
+        $('#host').attr('disabled', true);
+      }
+    });
+
+    $('#submit').click(function(){
+      var that = this;
+      var positionReg = new RegExp('^\\d+\\+\\d+$');
+      var formData = new FormData($( "form" )[0]);  
+
+      if($('input[type=file]').val() === ''){
+        return Materialize.toast('设计图不能为空啊!!!', 4000);
+      }else if($('#pageTitle').val() === ''){
+        return Materialize.toast('页面标题不能为空啊!!!', 4000);
+      }else if( !positionReg.test($('#position').val()) ){
+        return Materialize.toast('起始坐标格式不正确!!!', 4000);
+      }else if( isTempTime && $('#endTime').val() === ''){
+        return Materialize.toast('如果短期存在, 请选择结束时间!!!', 4000);
+      }
+
+      $(that).attr('disabled', true);
+      $shade.removeClass('hide');
+
+      $.ajax({
+          type: 'POST',
+          url: '/api/simpleWeb/creat',
+          data: formData,
+          cache: false,
+          contentType: false, 
+          processData: false,
+          error: function(request) {
+             finish();
+             Materialize.toast('创建失败, 请重新尝试!!!', 4000);
+          },
+          success: function(data) {
+            finish();
+            if(data.isOk){
+              Materialize.toast('创建成功, 更新SVN吧!!!', 4000);
+              $('.fileName').html(data.data.fileName);
+              $('.proURL').html(data.data.proURL);
+            }else{
+              Materialize.toast('创建失败, 请重新尝试!!!', 4000);
+            }
+          }
+      });
+
+      function finish(){
+        $shade.addClass('hide');
+        $(that).removeAttr('disabled');
+      }
+    });
+  });
+</script>
+</body>
+</html>
